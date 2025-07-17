@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,7 +12,12 @@ public class FirstSeleniumTest {
 		WebDriver driver;
 		@BeforeClass
 		public void setUp(){
-				driver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--headless=new"); // Use new headless mode (Chrome 109+)
+			options.addArguments("--no-sandbox");   // Required in some Jenkins environments
+			options.addArguments("--disable-dev-shm-usage"); // Avoid shared memory issues
+			WebDriver driver = new ChromeDriver(options);
+
 				driver.manage().window().maximize();
 				driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 		}
